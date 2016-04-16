@@ -13,45 +13,33 @@
  *= require_tree .
  *= require_self
  *= require foundation_and_overrides
-
  */
+
  @import 'foundation_and_overrides';
  @import '_settings';
  @import 'articles';
  @import 'comments';
  @import 'welcome';
+ @include foundation-button;
 
  $main-color: #96C49A;
  $secondary-color: #E5C32E;
  $font-sans: "Proxima Nova", "Helvetica Neue", Helvetica, Arial, sans-serif;
 
  body {
-   background-color: $main-color;
+   background-image: url('newspaper collage.jpg');
    font-family: $font-sans;
  }
-
- ul {
-  margin: 1em 0;
-  border: 1px solid black;
-
-  li {
-    padding: 3em 1em;
-  }
-}
 
 a {
   color: blue;
   text-decoration: none;
 
   &:hover {
-    text-decoration: underline;
+    text-decoration: none;
   }
 }
 
 tr {
   background-color: $secondary-color;
-
-  // tr {
-  //   background-color: $main-color;
-  // }
 }

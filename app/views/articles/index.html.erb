@@ -1,12 +1,13 @@
-<h1>Listing articles</h1>
+<h1>Articles</h1>
 
-
-<%= form_tag articles_path, method: "get" do %>
-  <p>
-    <%= text_field_tag :search, params[:search] %>
-    <%= submit_tag "Search", name: nil %>
-  </p>
-<% end %>
+<div class="small-12 large-4 columns">
+  <%= form_tag articles_path, method: "get" do %>
+    <p>
+      <%= text_field_tag :search, params[:search] %>
+      <%= submit_tag "Search", name: nil %>
+    </p>
+  <% end %>
+</div>
 
 <%= link_to 'New article', new_article_path %>
 
