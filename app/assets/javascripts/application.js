@@ -17,6 +17,8 @@
 
 var map;
 var infowindow;
+var service;
+var markers = [];
 
 function initMap() {
   var boston = {lat: 42.3601, lng: -71.0589 };
@@ -27,18 +29,29 @@ function initMap() {
   });
 
   infowindow = new google.maps.InfoWindow();
-  var service = new google.maps.places.PlacesService(map);
+  service = new google.maps.places.PlacesService(map);
   service.nearbySearch({
     location: boston,
     radius: 1000,
     type: ['cafe']
   }, callback);
+
+  google.maps.event.addListener(map, 'rightclick', function(event) {
+    map.setCenter(event.latLng);
+    clearResults(markers);
+
+    service.nearbySearch({
+      location: event.latLng,
+      radius: 1000,
+      types: ['cafe']
+    }, callback);
+  });
 }
 
 function callback(results, status) {
   if (status === google.maps.places.PlacesServiceStatus.OK) {
     for (var i = 0; i < results.length; i++) {
-      createMarker(results[i]);
+      markers.push(createMarker(results[i]));
     }
   }
 }
@@ -54,4 +67,12 @@ function createMarker(place) {
     infowindow.setContent(place.name);
     infowindow.open(map, this);
   });
+  return marker;
+}
+
+function clearResults(markers) {
+  for (var m in markers) {
+    markers[m].setMap(null)
+  }
+  markers = []
 }
