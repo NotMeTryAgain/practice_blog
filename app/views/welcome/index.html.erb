@@ -1,2 +1,10 @@
+<% content_for :head do %>
+<script src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['CAFE_KEY'] %>&libraries=places&callback=initAutocomplete"
+  async defer></script>
+<% end %>
+
 <h1>Hello, Rails!</h1>
 <%= link_to 'My Blog', controller: 'articles' %>
+
+<input id="pac-input" class="controls" type="text" placeholder="Search Box">
+<div id="map"></div>
