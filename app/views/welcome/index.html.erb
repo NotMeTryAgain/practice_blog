@@ -1,2 +1,17 @@
 <h1>Hello, Rails!</h1>
 <%= link_to 'My Blog', controller: 'articles' %>
+
+<% content_for :head do %>
+<script async defer
+src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['CAFE_KEY'] %>&libraries=places&callback=initMap">
+</script>
+<% end %>
+
+<div class="map-container">
+  <div id="map"></div>
+</div>
+
+<!-- <div id="map"></div> -->
+    <!-- <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places&callback=initMap">
+    </script> -->

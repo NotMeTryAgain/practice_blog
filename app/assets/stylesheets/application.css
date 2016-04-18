@@ -13,3 +13,25 @@
  *= require_tree .
  *= require_self
  */
+
+
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  #map-container{
+  border: none;
+  width: 650px;
+  height: 400px;
+  background-color: #ccc;
+  margin-left: 325px;
+  margin-right: 25px;
+}
+
+#map{
+  border: none;
+  width: 650px;
+  height: 400px;
+}
