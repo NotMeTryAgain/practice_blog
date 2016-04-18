@@ -46,7 +46,7 @@ function initMap() {
       service.nearbySearch({
         location: pos,
         radius: 5000,
-        type: ['establishment']
+        type: ['restaurant']
       }, callback);
     }, function() {
       handleLocationError(true, infoWindow, map.getCenter());
@@ -62,7 +62,7 @@ function initMap() {
     service.nearbySearch({
       location: event.latLng,
       radius: 5000,
-      types: ['establishment']
+      types: ['restaurant']
     }, callback);
   });
 }
@@ -78,6 +78,7 @@ function callback(results, status) {
   if (status === google.maps.places.PlacesServiceStatus.OK) {
     for (var i = 0; i < results.length; i++) {
       markers.push(createMarker(results[i]));
+      debugger;
       names.push(results[i].name);
     }
   }
