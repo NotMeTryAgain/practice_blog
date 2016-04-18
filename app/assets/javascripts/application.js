@@ -19,6 +19,8 @@ var map;
 var infowindow;
 var service;
 var markers = [];
+var results = [];
+var names = []
 
 function initMap() {
   var boston = {lat: 42.3601, lng: -71.0589 };
@@ -46,12 +48,15 @@ function initMap() {
       types: ['cafe']
     }, callback);
   });
+
+
 }
 
 function callback(results, status) {
   if (status === google.maps.places.PlacesServiceStatus.OK) {
     for (var i = 0; i < results.length; i++) {
       markers.push(createMarker(results[i]));
+      names.push(results[i].name);
     }
   }
 }
@@ -64,9 +69,10 @@ function createMarker(place) {
   });
 
   google.maps.event.addListener(marker, 'click', function() {
-    infowindow.setContent(place.name);
+    infowindow.setContent(place.name + " " + place.vicinity);
     infowindow.open(map, this);
   });
+  debugger;
   return marker;
 }
 
