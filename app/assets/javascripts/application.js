@@ -16,26 +16,42 @@
 //= require_tree .
 
 var map;
-var infowindow;
+var infoWindow;
 var service;
 var markers = [];
 var results = [];
-var names = []
+var names = [];
+var pos;
 
 function initMap() {
-  var boston = {lat: 42.3601, lng: -71.0589 };
-
   map = new google.maps.Map(document.getElementById('map'), {
-    center: boston,
+    center: {lat: -34.397, lng: 150.644},
     zoom: 15
   });
-
-  infowindow = new google.maps.InfoWindow();
+  infoWindow = new google.maps.InfoWindow({map: map});
   service = new google.maps.places.PlacesService(map);
+
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      pos = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
+
+      infoWindow.setPosition(pos);
+      infoWindow.setContent('Location found.');
+      map.setCenter(pos);
+    }, function() {
+      handleLocationError(true, infoWindow, map.getCenter());
+    });
+  } else {
+      handleLocationError(false, infoWindow, map.getCenter());
+    }
+
   service.nearbySearch({
-    location: boston,
-    radius: 1000,
-    type: ['cafe']
+    location: pos,
+    radius: 5000,
+    type: ['establishment']
   }, callback);
 
   google.maps.event.addListener(map, 'rightclick', function(event) {
@@ -44,13 +60,18 @@ function initMap() {
 
     service.nearbySearch({
       location: event.latLng,
-      radius: 1000,
-      types: ['cafe']
+      radius: 5000,
+      types: ['establishment']
     }, callback);
   });
-
-
 }
+
+function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+       infoWindow.setPosition(pos);
+       infoWindow.setContent(browserHasGeolocation ?
+                             'Error: The Geolocation service failed.' :
+                             'Error: Your browser doesn\'t support geolocation.');
+     }
 
 function callback(results, status) {
   if (status === google.maps.places.PlacesServiceStatus.OK) {
@@ -69,10 +90,9 @@ function createMarker(place) {
   });
 
   google.maps.event.addListener(marker, 'click', function() {
-    infowindow.setContent(place.name + " " + place.vicinity);
-    infowindow.open(map, this);
+    infoWindow.setContent(place.name + " " + place.vicinity);
+    infoWindow.open(map, this);
   });
-  debugger;
   return marker;
 }
 
