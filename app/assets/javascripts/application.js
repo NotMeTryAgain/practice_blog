@@ -22,6 +22,8 @@ var markers = [];
 var results = [];
 var names = [];
 var pos;
+var marker;
+var placeLoc
 
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
@@ -39,20 +41,19 @@ function initMap() {
       };
 
       infoWindow.setPosition(pos);
-      infoWindow.setContent('Location found.');
+      infoWindow.setContent('You..');
       map.setCenter(pos);
+      service.nearbySearch({
+        location: pos,
+        radius: 5000,
+        type: ['establishment']
+      }, callback);
     }, function() {
       handleLocationError(true, infoWindow, map.getCenter());
     });
   } else {
       handleLocationError(false, infoWindow, map.getCenter());
     }
-
-  service.nearbySearch({
-    location: pos,
-    radius: 5000,
-    type: ['establishment']
-  }, callback);
 
   google.maps.event.addListener(map, 'rightclick', function(event) {
     map.setCenter(event.latLng);
@@ -83,10 +84,10 @@ function callback(results, status) {
 }
 
 function createMarker(place) {
-  var placeLoc = place.geometry.location;
-  var marker = new google.maps.Marker({
+  placeLoc = place.geometry.location;
+  marker = new google.maps.Marker({
     map: map,
-    position: place.geometry.location
+    position: placeLoc
   });
 
   google.maps.event.addListener(marker, 'click', function() {
