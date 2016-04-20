@@ -24,7 +24,8 @@ var names = [];
 var pos;
 var marker;
 var placeLoc;
-var pageDetails
+var tony = [];
+var rando;
 
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
@@ -47,7 +48,7 @@ function initMap() {
       service.nearbySearch({
         location: pos,
         radius: 1000,
-        types: ['restaurant', 'food', 'cafe']
+        types: ['restaurant', 'cafe']
       }, callback);
     }, function() {
       handleLocationError(true, infoWindow, map.getCenter());
@@ -63,7 +64,7 @@ function initMap() {
     service.nearbySearch({
       location: event.latLng,
       radius: 1000,
-      types: ['restaurant', 'food', 'cafe']
+      types: ['restaurant', 'cafe']
     }, callback);
   });
 }
@@ -80,14 +81,15 @@ function callback(results, status) {
     for (var i = 0; i < results.length; i++) {
       markers.push(createMarker(results[i]));
       names.push(results[i].name);
+      tony.push(results[i])
     }
+    rando = names[Math.floor(Math.random() * names.length)];
   }
 }
 
 $(function(){
   $('#showbutton').on('click', function(){
-    // console.log(names)
-    $('.establishment_name').append('<p>' + names + " " + '</p>');
+    $('.establishment_name').append('<p>' + rando + " " + '</p>');
   });
 });
 
@@ -99,7 +101,7 @@ function createMarker(place) {
   });
 
   google.maps.event.addListener(marker, 'click', function() {
-    pageDetails = infoWindow.setContent(place.name + " " + place.vicinity + " " + place.types);
+    infoWindow.setContent(place.name + " " + place.vicinity + " " + place.types);
     infoWindow.open(map, this);
   });
   return marker;
